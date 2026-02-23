@@ -1,0 +1,7 @@
+{
+  "name": "movieswipe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
