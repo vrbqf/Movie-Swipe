@@ -41,17 +41,17 @@ import {
     IonItem,
     IonGrid,
     IonRow,
-    IonCol,
-    IonCard,
-    IonToggle,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
+    // IonCol,
+    //IonCard,
+    // IonToggle,
+    //IonCardHeader,
+    // IonCardTitle,
+    // IonCardContent,
     IonButton,
-    IonButtons,
-    IonSegment,
-    IonSegmentButton,
-    IonInput
+    // IonButtons,
+    //IonSegment,
+    // IonSegmentButton,
+    // IonInput
   ],
 })
 export class Tab1Page {
@@ -142,5 +142,20 @@ export class Tab1Page {
     this.searchType = type;
     this.searchQuery = '';
     this.loadPopular();
+  }
+
+  // pro sledování rozbalených popisů
+  expandedDescriptions: Set<number> = new Set();
+
+  toggleDescription(movie: any) {
+    if (this.expandedDescriptions.has(movie.id)) {
+      this.expandedDescriptions.delete(movie.id);
+    } else {
+      this.expandedDescriptions.add(movie.id);
+    }
+  }
+
+  isDescriptionExpanded(movie: any): boolean {
+    return this.expandedDescriptions.has(movie.id);
   }
 }
