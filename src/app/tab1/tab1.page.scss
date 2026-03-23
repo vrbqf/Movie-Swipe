@@ -1,103 +1,186 @@
 /* ===== ZÁKLAD ===== */
 
 ion-content {
-  --background: #222;
+  --background: #121212;
+  scroll-snap-type: y mandatory;
+  overflow-x: hidden;
 }
 
-/* ===== DESKTOP ===== */
+/* ===== VIDEO SLIDE (KARTA FILMU) ===== */
 
 .video-slide {
-  width: 100%;
-  max-width: 900px;      /* desktop šířka */
-  height: 700px;
-  margin: 40px auto;     /* auto = vycentrování */
-  border-radius: 20px;
-  overflow: hidden;
   position: relative;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+  background: #000;
 }
 
-/* Poster */
+/* Poster - Kliknutí sem spouští trailer */
 .background {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
-  filter: brightness(0.75);
+  background-position: top center;
+  background-repeat: no-repeat;
+  filter: brightness(0.6);
+  cursor: pointer;
+  z-index: 1; /* Nejnižší vrstva */
 }
 
-/* Overlay */
+/* Overlay - Horní vrstva */
 .overlay {
   position: absolute;
   bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  padding: 30px;
+  padding: 40px 20px 20px;
   color: white;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 2;
+
+  /* KLÍČOVÁ ZMĚNA: Kliknutí na prázdné místo overlay propadne na plakát pod ním */
+  pointer-events: none;
 
   background: linear-gradient(
       to top,
-      rgba(0,0,0,0.85),
-      rgba(0,0,0,0.4),
-      transparent
+      rgba(0,0,0,0.95) 0%,
+      rgba(0,0,0,0.6) 50%,
+      transparent 100%
   );
+}
+
+/* Všechny tyto prvky musí zase reagovat na kliknutí */
+.info, .actions, ion-button {
+  pointer-events: auto;
 }
 
 .info h2 {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  cursor: pointer;
 }
 
-.info p {
-  margin-top: 8px;
-  font-size: 16px;
+.info .rating {
+  margin: 5px 0;
+  font-size: 18px;
+  color: #ffca28;
+}
+
+/* Akce (Srdíčko) */
+.actions {
+  position: absolute;
+  right: 15px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
 }
 
 .actions span {
-  font-size: 32px;
+  font-size: 40px;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
+  cursor: pointer;
 }
 
+/* Popis filmu - Pouze rozbaluje */
 .description {
-  margin-top: 10px;
+  margin: 10px 0;
   font-size: 14px;
-  line-height: 1.4;
-  max-height: 60px;      /* zkrácený text */
+  line-height: 1.5;
+  max-height: 3.2em;
   overflow: hidden;
+  color: #ddd;
   cursor: pointer;
-  transition: max-height 0.3s ease;
+  padding-right: 20px;
+  transition: max-height 0.4s ease;
 }
 
 .description.expanded {
-  max-height: 500px;     /* dostatečně pro celý text */
-  overflow: visible;
+  max-height: 45vh;
+  overflow-y: auto;
+  color: #fff;
+}
+
+/* Nápověda pod popisem */
+.play-hint {
+  color: #3880ff;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* Spodní tlačítko "Chci vidět" */
+ion-button[expand="block"] {
+  margin-top: 15px;
+  --border-radius: 12px;
+  font-weight: 600;
+  height: 50px;
+  z-index: 5;
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 768px) {
+  .video-slide {
+    width: 95%;
+    max-width: 480px;
+    height: 850px;
+    margin: 40px auto;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
 }
 
 /* ===== MOBILE ===== */
-
-@media (max-width: 768px) {
-
-  ion-content {
-    --background: black;
-  }
-
+@media (max-width: 767px) {
   .video-slide {
-    max-width: 450px;
-    height: 88vh;
-    margin: 20px auto;
-    border-radius: 16px;
+    height: 100vh;
   }
 
-  .info h2 {
-    font-size: 18px;
+  .overlay {
+    padding-bottom: 110px;
+    padding-right: 80px; /* Větší prostor pro srdíčko */
   }
 
-  .info p {
-    font-size: 14px;
+  .actions {
+    bottom: 180px;
+    right: 20px;
   }
 
-  .actions span {
-    font-size: 28px;
+  ion-button[expand="block"] {
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    right: 15px;
+    margin: 0;
+    z-index: 30;
   }
+}
+
+/* Trailer Modal */
+.trailer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-wrapper {
+  width: 95%;
+  max-width: 900px;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  iframe { width: 100%; height: 100%; border-radius: 8px; }
+  ion-button { position: absolute; top: -50px; right: 0; }
 }

@@ -1,29 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonLabel,
-  IonContent,
-  IonItem,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonCard,
-  IonToggle,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
-  IonButton,
-  IonButtons,
-  IonSegment,
-  IonSegmentButton,
-  IonInput
+  IonButton, IonContent, IonHeader, IonToolbar,
+  IonIcon, IonSegment, IonSegmentButton, IonLabel
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { heart, heartOutline, bookmark, bookmarkOutline, playCircle } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tab1',
@@ -32,121 +16,64 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    HttpClientModule,
+    IonContent,
+    IonButton,
     IonHeader,
     IonToolbar,
-    IonTitle,
-    IonLabel,
-    IonContent,
-    IonItem,
-    IonGrid,
-    IonRow,
-    // IonCol,
-    //IonCard,
-    // IonToggle,
-    //IonCardHeader,
-    // IonCardTitle,
-    // IonCardContent,
-    IonButton,
-    // IonButtons,
-    //IonSegment,
-    // IonSegmentButton,
-    // IonInput
-  ],
+    //IonIcon,
+    IonSegment,
+    IonSegmentButton,
+    IonLabel
+  ]
 })
-export class Tab1Page {
-
+export class Tab1Page implements OnInit {
   private http = inject(HttpClient);
-
+  private sanitizer = inject(DomSanitizer);
 
   movies: any[] = [];
-  selectedMovie: any = null;
   imageUrl = "https://image.tmdb.org/t/p/w500";
-  apiKey = "ef32b67b7ef29916aa9f7b2cf99f3ea1"; // sem dej svůj TMDB API key
+  apiKey = "ef32b67b7ef29916aa9f7b2cf99f3ea1";
 
-
-  searchQuery: string = '';
   searchType: 'movie' | 'tv' = 'movie';
-
   favorites: any[] = [];
+  wantList: any[] = [];
 
-  protected darkMode: boolean= false;
-
-  constructor() {
-    // načtení uložených favorites při startu
-    const stored = localStorage.getItem('favorites');
-    this.favorites = stored ? JSON.parse(stored) : [];
-  }
-
-  ionViewWillEnter() {
-    this.loadPopular();
-  }
-
-
-  loadPopular() {
-    const url = `https://api.themoviedb.org/3/${this.searchType}/popular?api_key=${this.apiKey}`;
-    this.http.get(url).subscribe((data: any) => {
-      this.movies = data.results || [];
-    });
-  }
-
-  toggleDarkMode() {
-    this.darkMode = !this.darkMode;
-    document.body.classList.toggle('dark', this.darkMode);
-    if (this.darkMode) {
-      localStorage.setItem('darkModeActivated', 'true');
-    } else {
-      localStorage.setItem('darkModeActivated', 'false');
-    }
-  }
-
-  // Vyhledávání
-  searchItems() {
-    if (!this.searchQuery) {
-      this.loadPopular();
-      return;
-    }
-    const url = `https://api.themoviedb.org/3/search/${this.searchType}?api_key=${this.apiKey}&query=${encodeURIComponent(this.searchQuery)}`;
-    this.http.get(url).subscribe((data: any) => {
-      this.movies = data.results || [];
-    });
-  }
-
-  // Modal detail
-  openMovie(movie: any) {
-    this.selectedMovie = movie;
-  }
-
-  closeMovie() {
-    this.selectedMovie = null;
-  }
-
-  // Favorites – přidání / odebrání
-  toggleFavorite(movie: any) {
-    const index = this.favorites.findIndex(f => f.id === movie.id);
-    if (index > -1) {
-      this.favorites.splice(index, 1);
-    } else {
-      this.favorites.push(movie);
-    }
-    localStorage.setItem('favorites', JSON.stringify(this.favorites));
-  }
-
-  // Zjistí, zda je ve favorites
-  isFavorite(movie: any): boolean {
-    return this.favorites.some(f => f.id === movie.id);
-  }
-
-  // Přepnutí mezi filmy a seriály
-  changeType(type: 'movie' | 'tv') {
-    this.searchType = type;
-    this.searchQuery = '';
-    this.loadPopular();
-  }
-
-  // pro sledování rozbalených popisů
+  // VEPSÁNO: Sledování rozbalených popisků
   expandedDescriptions: Set<number> = new Set();
 
+  showTrailer = false;
+  currentTrailerUrl: SafeResourceUrl | null = null;
+
+  constructor() {
+    addIcons({ heart, heartOutline, bookmark, bookmarkOutline, playCircle });
+    this.loadStorage();
+  }
+
+  ngOnInit() {
+    this.loadPopular();
+  }
+
+  loadStorage() {
+    this.favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    this.wantList = JSON.parse(localStorage.getItem('want') || '[]');
+  }
+
+  loadPopular() {
+    const url = `https://api.themoviedb.org/3/${this.searchType}/popular?api_key=${this.apiKey}&language=cs-CZ`;
+    this.http.get(url).subscribe((data: any) => {
+      this.movies = data.results || [];
+      // Tip: Při změně kategorie (film/seriál) vymažeme rozbalené popisky
+      this.expandedDescriptions.clear();
+    });
+  }
+
+  segmentChanged(event: any) {
+    this.searchType = event.detail.value;
+    this.loadPopular();
+  }
+
+  // VEPSÁNO: Funkce pro rozbalení/zabalení popisu (bez traileru)
   toggleDescription(movie: any) {
     if (this.expandedDescriptions.has(movie.id)) {
       this.expandedDescriptions.delete(movie.id);
@@ -158,4 +85,55 @@ export class Tab1Page {
   isDescriptionExpanded(movie: any): boolean {
     return this.expandedDescriptions.has(movie.id);
   }
+
+  openTrailer(movie: any) {
+    const url = `https://api.themoviedb.org/3/${this.searchType}/${movie.id}/videos?api_key=${this.apiKey}`;
+    this.http.get(url).subscribe((data: any) => {
+      const trailer = data.results.find((v: any) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
+      if (trailer) {
+        this.currentTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${trailer.key}?autoplay=1`);
+        this.showTrailer = true;
+      } else {
+        alert("Trailer není k dispozici.");
+      }
+    });
+  }
+
+  closeTrailer() {
+    this.showTrailer = false;
+    this.currentTrailerUrl = null;
+  }
+
+  toggleFavorite(movie: any) {
+    const index = this.favorites.findIndex(f => f.id === movie.id);
+    if (index > -1) {
+      this.favorites.splice(index, 1);
+    } else {
+      this.favorites.push({
+        id: movie.id,
+        nazev: movie.title || movie.name,
+        obrazek: this.imageUrl + movie.poster_path,
+        typ: this.searchType
+      });
+    }
+    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+  }
+
+  toggleWant(movie: any) {
+    const index = this.wantList.findIndex(m => m.id === movie.id);
+    if (index > -1) {
+      this.wantList.splice(index, 1);
+    } else {
+      this.wantList.push({
+        id: movie.id,
+        nazev: movie.title || movie.name,
+        obrazek: this.imageUrl + movie.poster_path,
+        typ: this.searchType
+      });
+    }
+    localStorage.setItem('want', JSON.stringify(this.wantList));
+  }
+
+  isFavorite(id: number) { return this.favorites.some(f => f.id === id); }
+  isWant(id: number) { return this.wantList.some(m => m.id === id); }
 }

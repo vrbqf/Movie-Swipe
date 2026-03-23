@@ -1,28 +1,46 @@
-<ion-content [fullscreen]="true" class="tiktok-container">
+<ion-header>
+  <ion-toolbar>
+    <ion-segment [value]="searchType" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="movie"><ion-label>Filmy</ion-label></ion-segment-button>
+      <ion-segment-button value="tv"><ion-label>Seriály</ion-label></ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content [fullscreen]="true" class="tiktok-container">
   @for (movie of movies; track movie.id) {
     <div class="video-slide">
       <div class="background"
-           [style.backgroundImage]="'url(' + imageUrl + movie.poster_path + ')'"></div>
+           [style.backgroundImage]="'url(' + imageUrl + movie.poster_path + ')'"
+           (click)="openTrailer(movie)">
+      </div>
+
       <div class="overlay">
         <div class="info">
-          <h2>{{ movie.title || movie.name }}</h2>
+          <h2 (click)="openTrailer(movie)">{{ movie.title || movie.name }}</h2>
           <p class="rating">⭐ {{ movie.vote_average }}</p>
 
           <p class="description"
              [class.expanded]="isDescriptionExpanded(movie)"
-             (click)="toggleDescription(movie)">
-            {{ movie.overview }}
+             (click)="toggleDescription(movie); $event.stopPropagation()">
+            {{ movie.overview || 'Bez popisu...' }}
           </p>
+
+          <span class="play-hint" (click)="openTrailer(movie)">▶ Klikni pro trailer</span>
         </div>
+
         <div class="actions">
-          <ion-button fill="clear" (click)="toggleFavorite(movie); $event.stopPropagation()">
-            <span [style.color]="isFavorite(movie) ? 'red' : 'white'">❤️</span>
-          </ion-button>
+          <div class="action-item" (click)="toggleFavorite(movie); $event.stopPropagation()">
+            <span [style.color]="isFavorite(movie.id) ? 'red' : 'white'">❤️</span>
+          </div>
         </div>
+
+        <ion-button expand="block" [color]="isWant(movie.id) ? 'success' : 'primary'"
+                    (click)="toggleWant(movie); $event.stopPropagation()">
+          {{ isWant(movie.id) ? 'V seznamu Chci vidět' : 'Přidat do Chci vidět' }}
+        </ion-button>
       </div>
     </div>
   }
-
 
 </ion-content>
