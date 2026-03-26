@@ -5,14 +5,14 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonCard,
+  /*IonCard,
   IonCardHeader,
   IonCardTitle,
   IonButton,
-  IonList,
+  IonList,*/
   IonSegment,
   IonSegmentButton,
-  IonLabel
+  IonLabel, IonGrid, IonRow, IonCol
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -26,14 +26,17 @@ import {
     IonToolbar,
     IonTitle,
     IonContent,
-    IonCard,
+    /*IonCard,
     IonCardHeader,
     IonCardTitle,
     IonButton,
-    IonList,
+    IonList,*/
     IonSegment,
     IonSegmentButton,
-    IonLabel
+    IonLabel,
+    IonGrid,
+    IonRow,
+    IonCol
   ],
 })
 export class Tab2Page {

@@ -14,26 +14,34 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    @for (movie of getFilteredMovies(); track movie.id) {
-      <ion-card>
-        @if (movie.obrazek) {
-          <img [src]="movie.obrazek" [alt]="movie.nazev" />
-        }
-        <ion-card-header>
-          <ion-card-title>{{ movie.nazev }}</ion-card-title>
-        </ion-card-header>
-        <div class="ion-padding">
-          <ion-button color="danger" fill="outline" (click)="removeFromWant(movie.id)">
-            Odebrat
-          </ion-button>
-        </div>
-      </ion-card>
-    } @empty {
-      <div class="ion-padding ion-text-center">
-        <p>Žádné uložené {{ viewType === 'movie' ? 'filmy' : 'seriály' }}.</p>
-      </div>
-    }
-  </ion-list>
+<ion-content [fullscreen]="true">
+  <ion-grid class="movie-grid">
+    <ion-row>
+      @for (movie of getFilteredMovies(); track movie.id) {
+        <ion-col size="6" size-md="4" size-lg="3">
+          <div class="movie-poster-card">
+
+            @if (movie.obrazek) {
+              <img [src]="movie.obrazek" [alt]="movie.nazev" />
+            }
+
+            <div class="remove-badge" (click)="removeFromWant(movie.id)">
+              ✕
+            </div>
+
+            <div class="poster-info">
+              <p>{{ movie.nazev }}</p>
+            </div>
+
+          </div>
+        </ion-col>
+      } @empty {
+        <ion-col size="12" class="ion-text-center ion-padding">
+          <p class="empty-text">
+            Žádné uložené {{ viewType === 'movie' ? 'filmy' : 'seriály' }}.
+          </p>
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
 </ion-content>

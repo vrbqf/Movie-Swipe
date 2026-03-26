@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Oblíbené</ion-title>
+    <ion-title>Oblíbené ❤️</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <ion-segment [value]="viewType" (ionChange)="segmentChanged($event)">
@@ -15,33 +15,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-grid class="movie-grid">
+    <ion-row>
+      @for (movie of filteredFavorites; track movie.id) {
+        <ion-col size="6" size-md="4" size-lg="3">
+          <div class="movie-poster-card">
 
-  @if (filteredFavorites.length === 0) {
-    <p style="text-align:center; margin-top:20px;">
-      Nemáš žádné oblíbené {{ viewType === 'movie' ? 'filmy' : 'seriály' }}.
-    </p>
-  }
+            @if (movie.obrazek) {
+              <img [src]="movie.obrazek" [alt]="movie.nazev" />
+            }
 
-  @for (movie of filteredFavorites; track movie.id) {
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          {{ movie.nazev }}
-        </ion-card-title>
-      </ion-card-header>
+            <div class="remove-badge" (click)="removeFavorite(movie)">
+              ✕
+            </div>
 
-      <ion-card-content>
+            <div class="poster-info">
+              <p>{{ movie.nazev }}</p>
+            </div>
 
-        @if (movie.obrazek) {
-          <img [src]="movie.obrazek" [alt]="movie.nazev" />
-        }
-
-        <ion-button expand="block" color="danger" (click)="removeFavorite(movie)">
-          Odebrat z oblíbených
-        </ion-button>
-
-      </ion-card-content>
-    </ion-card>
-  }
-
+          </div>
+        </ion-col>
+      } @empty {
+        <ion-col size="12" class="ion-text-center ion-padding">
+          <p class="empty-text">
+            Nemáš žádné oblíbené {{ viewType === 'movie' ? 'filmy' : 'seriály' }}.
+          </p>
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
 </ion-content>

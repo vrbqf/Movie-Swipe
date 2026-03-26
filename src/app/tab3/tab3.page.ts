@@ -13,7 +13,7 @@ import {
   IonButton,
   IonSegment,       // Přidáno
   IonSegmentButton, // Přidáno
-  IonLabel          // Přidáno
+  IonLabel, IonGrid, IonRow, IonCol          // Přidáno
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -27,14 +27,18 @@ import {
     IonToolbar,
     IonTitle,
     IonContent,
-    IonCard,
+   /* IonCard,
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
-    IonButton,
+    IonButton,*/
     IonSegment,       // Přidáno
     IonSegmentButton, // Přidáno
-    IonLabel          // Přidáno
+    IonLabel,
+    IonGrid,
+    IonRow,
+    IonCol,
+    // Přidáno
   ],
 })
 export class Tab3Page {

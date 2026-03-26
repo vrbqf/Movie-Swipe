@@ -1,0 +1,78 @@
+ion-content {
+  --background: #121212;
+}
+
+.movie-grid {
+  padding: 8px;
+}
+
+.movie-poster-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #222;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  margin-bottom: 5px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Křížek v rohu - u oblíbených ho můžeme udělat lehce do červena */
+.remove-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  background: rgba(255, 68, 68, 0.8);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.poster-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px 8px 8px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+
+  p {
+    margin: 0;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.empty-text {
+  color: #666;
+  margin-top: 50px;
+  font-style: italic;
+}
+
+/* Ladění segmentu k tmavému pozadí */
+ion-segment {
+  --background: #121212;
+}
+
+ion-segment-button {
+  --color: #888;
+  --color-checked: #fff;
+}

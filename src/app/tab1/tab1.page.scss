@@ -165,22 +165,62 @@ ion-button[expand="block"] {
   }
 }
 
-/* Trailer Modal */
+/* ===== TRAILER MODAL & KŘÍŽEK ===== */
+
 .trailer-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
-  z-index: 1000;
+  background: rgba(0, 0, 0, 0.98); /* Téměř úplně černé */
+  z-index: 9998; /* Musí být pod křížkem, ale nad zbytkem appky */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* NOVÝ KŘÍŽEK - Toto vlož místo .close-btn */
+.close-x {
+  position: fixed;
+  top: 50px;           /* Dostatečně nahoře, aby ho nesežral výřez mobilu */
+  right: 25px;
+  width: 50px;
+  height: 50px;
+
+  background: rgba(255, 255, 255, 0.2); /* Průhledné kolečko */
+  color: #ffffff !important;           /* TOTÁLNĚ BÍLÉ X */
+  border: 2px solid #ffffff;           /* Bílý okraj, aby zářil */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 50%;
+  z-index: 9999;        /* ABSOLUTNĚ NEJVYŠŠÍ VRSTVA */
+  cursor: pointer;
+
+  backdrop-filter: blur(10px); /* Efekt mléčného skla */
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
 .video-wrapper {
-  width: 95%;
+  width: 100%;
   max-width: 900px;
-  position: relative;
   aspect-ratio: 16 / 9;
-  iframe { width: 100%; height: 100%; border-radius: 8px; }
-  ion-button { position: absolute; top: -50px; right: 0; }
+  background: #000;
+  z-index: 9998;
+}
+
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Mobilní ladění pro křížek */
+@media (max-width: 767px) {
+  .close-x {
+    top: 60px;   /* Na iPhonu s "notchem" raději kousek níž */
+    right: 20px;
+  }
 }

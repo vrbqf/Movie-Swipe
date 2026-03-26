@@ -1,13 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
-  IonButton, IonContent, IonHeader, IonToolbar,
-  IonIcon, IonSegment, IonSegmentButton, IonLabel
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonIcon, // Odkomentováno, aby ikony fungovaly
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
+  IonSearchbar // PŘIDÁNO pro vyhledávání
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { heart, heartOutline, bookmark, bookmarkOutline, playCircle } from 'ionicons/icons';
+import { heart, heartOutline, bookmark, bookmarkOutline, playCircle, searchOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tab1',
@@ -21,13 +28,16 @@ import { heart, heartOutline, bookmark, bookmarkOutline, playCircle } from 'ioni
     IonButton,
     IonHeader,
     IonToolbar,
-    //IonIcon,
+    IonIcon, // VRÁCENO
     IonSegment,
     IonSegmentButton,
-    IonLabel
+    IonLabel,
+    IonSearchbar // PŘIDÁNO
   ]
 })
 export class Tab1Page implements OnInit {
+  @ViewChild(IonContent, { static: false }) content?: IonContent;
+
   private http = inject(HttpClient);
   private sanitizer = inject(DomSanitizer);
 
@@ -36,17 +46,17 @@ export class Tab1Page implements OnInit {
   apiKey = "ef32b67b7ef29916aa9f7b2cf99f3ea1";
 
   searchType: 'movie' | 'tv' = 'movie';
+  searchQuery: string = ''; // PŘIDÁNO: Sledování textu hledání
+
   favorites: any[] = [];
   wantList: any[] = [];
 
-  // VEPSÁNO: Sledování rozbalených popisků
   expandedDescriptions: Set<number> = new Set();
-
   showTrailer = false;
   currentTrailerUrl: SafeResourceUrl | null = null;
 
   constructor() {
-    addIcons({ heart, heartOutline, bookmark, bookmarkOutline, playCircle });
+    addIcons({ heart, heartOutline, bookmark, bookmarkOutline, playCircle, searchOutline });
     this.loadStorage();
   }
 
@@ -63,17 +73,43 @@ export class Tab1Page implements OnInit {
     const url = `https://api.themoviedb.org/3/${this.searchType}/popular?api_key=${this.apiKey}&language=cs-CZ`;
     this.http.get(url).subscribe((data: any) => {
       this.movies = data.results || [];
-      // Tip: Při změně kategorie (film/seriál) vymažeme rozbalené popisky
       this.expandedDescriptions.clear();
+      this.scrollToTop();
     });
+  }
+
+  // PŘIDÁNO: Funkce pro vyhledávání
+  onSearch(event: any) {
+    this.searchQuery = event.detail.value;
+
+    if (this.searchQuery.trim().length > 2) {
+      const url = `https://api.themoviedb.org/3/search/${this.searchType}?api_key=${this.apiKey}&language=cs-CZ&query=${this.searchQuery}`;
+      this.http.get(url).subscribe((data: any) => {
+        this.movies = data.results || [];
+        this.scrollToTop();
+      });
+    } else if (this.searchQuery.trim().length === 0) {
+      this.loadPopular();
+    }
   }
 
   segmentChanged(event: any) {
     this.searchType = event.detail.value;
-    this.loadPopular();
+    this.movies = [];
+    // Pokud je v hledáčku text, hledáme znovu v nové kategorii, jinak načteme populární
+    if (this.searchQuery.trim().length > 2) {
+      this.onSearch({ detail: { value: this.searchQuery } });
+    } else {
+      this.loadPopular();
+    }
   }
 
-  // VEPSÁNO: Funkce pro rozbalení/zabalení popisu (bez traileru)
+  scrollToTop() {
+    if (this.content) {
+      this.content.scrollToTop(0);
+    }
+  }
+
   toggleDescription(movie: any) {
     if (this.expandedDescriptions.has(movie.id)) {
       this.expandedDescriptions.delete(movie.id);
