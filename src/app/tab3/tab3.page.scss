@@ -23,14 +23,14 @@ ion-content {
   }
 }
 
-/* Tlačítko se srdíčkem v rohu */
+
 .remove-badge {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 32px;  /* Trochu jsem ho zvětšil pro lepší klikání */
+  width: 32px;
   height: 32px;
-  background: rgba(0, 0, 0, 0.7); /* Tmavý podklad, aby srdce zářilo */
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -41,15 +41,15 @@ ion-content {
   transition: transform 0.2s ease;
   cursor: pointer;
 
-  /* Styl pro ikonu srdíčka uvnitř */
+
   ion-icon {
-    color: #ff4444; /* Krásná červená */
+    color: #ff4444;
     font-size: 18px;
   }
 }
 
 .remove-badge:active {
-  transform: scale(0.9); /* Efekt zmáčknutí */
+  transform: scale(0.9);
 }
 
 .poster-info {
@@ -77,7 +77,7 @@ ion-content {
   font-style: italic;
 }
 
-/* Ladění segmentu k tmavému pozadí */
+
 ion-segment {
   --background: #121212;
 }
@@ -85,5 +85,5 @@ ion-segment {
 ion-segment-button {
   --color: #888;
   --color-checked: #fff;
-  --indicator-color: #ff4444; /* Indikátor v barvě srdce */
+  --indicator-color: #ff4444;
 }

@@ -1,5 +1,5 @@
 ion-content {
-  --background: #121212; /* Tmavé pozadí jako v Tab 1 */
+  --background: #121212;
 }
 
 .movie-grid {
@@ -9,7 +9,7 @@ ion-content {
 .movie-poster-card {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3; /* Zachová tvar filmového plakátu */
+  aspect-ratio: 2 / 3;
   border-radius: 10px;
   overflow: hidden;
   background: #222;
@@ -23,14 +23,14 @@ ion-content {
   }
 }
 
-/* Tlačítko se záložkou v rohu (místo křížku) */
+
 .remove-badge {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 32px; /* Větší plocha pro snadnější kliknutí */
+  width: 32px;
   height: 32px;
-  background: rgba(0, 0, 0, 0.7); /* Tmavý podklad pod ikonou */
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -41,18 +41,18 @@ ion-content {
   transition: transform 0.2s ease;
   cursor: pointer;
 
-  /* Styl pro ikonu bookmark uvnitř */
+
   ion-icon {
-    color: #3880ff; /* Tvoje modrá barva */
+    color: #3880ff;
     font-size: 18px;
   }
 }
 
 .remove-badge:active {
-  transform: scale(0.9); /* Efekt zmáčknutí */
+  transform: scale(0.9);
 }
 
-/* Název filmu přes spodní část plakátu */
+
 .poster-info {
   position: absolute;
   bottom: 0;
@@ -68,7 +68,7 @@ ion-content {
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Dlouhé názvy zkrátí tečkami */
+    text-overflow: ellipsis;
   }
 }
 
@@ -78,7 +78,7 @@ ion-content {
   font-style: italic;
 }
 
-/* Ladění segmentu (Filmy/Seriály) */
+
 ion-segment {
   --background: #121212;
 }
@@ -86,5 +86,5 @@ ion-segment {
 ion-segment-button {
   --color: #888;
   --color-checked: #fff;
-  --indicator-color: #3880ff; /* Modrý proužek pod vybraným typem */
+  --indicator-color: #3880ff;
 }

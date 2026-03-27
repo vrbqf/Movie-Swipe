@@ -11,9 +11,9 @@ import {
   IonCardTitle,
   IonCardContent,
   IonButton,
-  IonSegment,       // Přidáno
-  IonSegmentButton, // Přidáno
-  IonLabel, IonGrid, IonRow, IonCol, IonIcon          // Přidáno
+  IonSegment,
+  IonSegmentButton,
+  IonLabel, IonGrid, IonRow, IonCol, IonIcon
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -32,20 +32,19 @@ import {
      IonCardTitle,
      IonCardContent,
      IonButton,*/
-    IonSegment,       // Přidáno
-    IonSegmentButton, // Přidáno
+    IonSegment,
+    IonSegmentButton,
     IonLabel,
     IonGrid,
     IonRow,
     IonCol,
     IonIcon,
-    // Přidáno
   ],
 })
 export class Tab3Page {
 
-  allFavorites: any[] = []; // Tady jsou všechny uložené věci
-  viewType: 'movie' | 'tv' = 'movie'; // Výchozí zobrazení
+  allFavorites: any[] = [];
+  viewType: 'movie' | 'tv' = 'movie';
   imageUrl = "https://image.tmdb.org/t/p/w500";
 
   ionViewWillEnter() {
@@ -56,12 +55,10 @@ export class Tab3Page {
     this.allFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
   }
 
-  // Funkce pro přepínání bez ngModel
   segmentChanged(event: any) {
     this.viewType = event.detail.value;
   }
 
-  // Funkce pro filtrování, kterou použiješ v @for
   get filteredFavorites() {
     return this.allFavorites.filter(item => item.typ === this.viewType);
   }

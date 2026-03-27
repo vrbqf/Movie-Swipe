@@ -42,7 +42,7 @@ import {
 })
 export class Tab2Page {
   allSavedItems: any[] = [];
-  viewType: 'movie' | 'tv' = 'movie'; // Výchozí nastavení
+  viewType: 'movie' | 'tv' = 'movie';
 
   ionViewWillEnter() {
     this.loadWant();
@@ -53,12 +53,10 @@ export class Tab2Page {
     this.allSavedItems = stored ? JSON.parse(stored) : [];
   }
 
-  // Funkce, která zachytí změnu v přepínači
   segmentChanged(event: any) {
     this.viewType = event.detail.value;
   }
 
-  // Pomocná funkce pro zobrazení jen správných dat
   getFilteredMovies() {
     return this.allSavedItems.filter(item => item.typ === this.viewType);
   }

@@ -1,12 +1,10 @@
-/* ===== ZÁKLAD ===== */
-
 ion-content {
   --background: #121212;
   scroll-snap-type: y mandatory;
   overflow-x: hidden;
 }
 
-/* ===== VIDEO SLIDE (KARTA FILMU) ===== */
+
 
 .video-slide {
   position: relative;
@@ -17,7 +15,7 @@ ion-content {
   background: #000;
 }
 
-/* Poster - Kliknutí sem spouští trailer */
+
 .background {
   position: absolute;
   inset: 0;
@@ -26,10 +24,10 @@ ion-content {
   background-repeat: no-repeat;
   filter: brightness(0.6);
   cursor: pointer;
-  z-index: 1; /* Nejnižší vrstva */
+  z-index: 1;
 }
 
-/* Overlay - Horní vrstva */
+
 .overlay {
   position: absolute;
   bottom: 0;
@@ -43,7 +41,7 @@ ion-content {
   justify-content: flex-end;
   z-index: 2;
 
-  /* KLÍČOVÁ ZMĚNA: Kliknutí na prázdné místo overlay propadne na plakát pod ním */
+
   pointer-events: none;
 
   background: linear-gradient(
@@ -54,7 +52,7 @@ ion-content {
   );
 }
 
-/* Všechny tyto prvky musí zase reagovat na kliknutí */
+
 .info, .actions, ion-button {
   pointer-events: auto;
 }
@@ -73,7 +71,7 @@ ion-content {
   color: #ffca28;
 }
 
-/* Akce (Srdíčko) */
+
 .actions {
   position: absolute;
   right: 15px;
@@ -90,7 +88,7 @@ ion-content {
   cursor: pointer;
 }
 
-/* Popis filmu - Pouze rozbaluje */
+
 .description {
   margin: 10px 0;
   font-size: 14px;
@@ -109,7 +107,7 @@ ion-content {
   color: #fff;
 }
 
-/* Nápověda pod popisem */
+
 .play-hint {
   color: #3880ff;
   font-size: 12px;
@@ -118,7 +116,7 @@ ion-content {
   margin-top: 5px;
 }
 
-/* Spodní tlačítko "Chci vidět" */
+
 ion-button[expand="block"] {
   margin-top: 15px;
   --border-radius: 12px;
@@ -127,7 +125,7 @@ ion-button[expand="block"] {
   z-index: 5;
 }
 
-/* ===== DESKTOP ===== */
+
 @media (min-width: 768px) {
   .video-slide {
     width: 95%;
@@ -139,7 +137,7 @@ ion-button[expand="block"] {
   }
 }
 
-/* ===== MOBILE ===== */
+
 @media (max-width: 767px) {
   .video-slide {
     height: 100vh;
@@ -147,7 +145,7 @@ ion-button[expand="block"] {
 
   .overlay {
     padding-bottom: 110px;
-    padding-right: 80px; /* Větší prostor pro srdíčko */
+    padding-right: 80px;
   }
 
   .actions {
@@ -165,29 +163,29 @@ ion-button[expand="block"] {
   }
 }
 
-/* ===== TRAILER MODAL & KŘÍŽEK ===== */
+
 
 .trailer-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.98); /* Téměř úplně černé */
-  z-index: 9998; /* Musí být pod křížkem, ale nad zbytkem appky */
+  background: rgba(0, 0, 0, 0.98);
+  z-index: 9998;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* NOVÝ KŘÍŽEK - Toto vlož místo .close-btn */
+
 .close-x {
   position: fixed;
-  top: 50px;           /* Dostatečně nahoře, aby ho nesežral výřez mobilu */
+  top: 50px;
   right: 25px;
   width: 50px;
   height: 50px;
 
-  background: rgba(255, 255, 255, 0.2); /* Průhledné kolečko */
-  color: #ffffff !important;           /* TOTÁLNĚ BÍLÉ X */
-  border: 2px solid #ffffff;           /* Bílý okraj, aby zářil */
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff !important;
+  border: 2px solid #ffffff;
 
   display: flex;
   align-items: center;
@@ -196,10 +194,10 @@ ion-button[expand="block"] {
   font-size: 24px;
   font-weight: bold;
   border-radius: 50%;
-  z-index: 9999;        /* ABSOLUTNĚ NEJVYŠŠÍ VRSTVA */
+  z-index: 9999;
   cursor: pointer;
 
-  backdrop-filter: blur(10px); /* Efekt mléčného skla */
+  backdrop-filter: blur(10px);
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
@@ -217,10 +215,10 @@ ion-button[expand="block"] {
   border: none;
 }
 
-/* Mobilní ladění pro křížek */
+
 @media (max-width: 767px) {
   .close-x {
-    top: 60px;   /* Na iPhonu s "notchem" raději kousek níž */
+    top: 60px;
     right: 20px;
   }
 }

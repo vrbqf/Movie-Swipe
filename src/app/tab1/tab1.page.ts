@@ -7,11 +7,11 @@ import {
   IonContent,
   IonHeader,
   IonToolbar,
-  IonIcon, // Odkomentováno, aby ikony fungovaly
+  IonIcon,
   IonSegment,
   IonSegmentButton,
   IonLabel,
-  IonSearchbar // PŘIDÁNO pro vyhledávání
+  IonSearchbar
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { heart, heartOutline, bookmark, bookmarkOutline, playCircle, searchOutline } from 'ionicons/icons';
@@ -28,11 +28,11 @@ import { heart, heartOutline, bookmark, bookmarkOutline, playCircle, searchOutli
     IonButton,
     IonHeader,
     IonToolbar,
-    IonIcon, // VRÁCENO
+    IonIcon,
     IonSegment,
     IonSegmentButton,
     IonLabel,
-    IonSearchbar // PŘIDÁNO
+    IonSearchbar
   ]
 })
 export class Tab1Page implements OnInit {
@@ -46,7 +46,7 @@ export class Tab1Page implements OnInit {
   apiKey = "ef32b67b7ef29916aa9f7b2cf99f3ea1";
 
   searchType: 'movie' | 'tv' = 'movie';
-  searchQuery: string = ''; // PŘIDÁNO: Sledování textu hledání
+  searchQuery: string = '';
 
   favorites: any[] = [];
   wantList: any[] = [];
@@ -78,7 +78,6 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  // PŘIDÁNO: Funkce pro vyhledávání
   onSearch(event: any) {
     this.searchQuery = event.detail.value;
 
@@ -96,7 +95,6 @@ export class Tab1Page implements OnInit {
   segmentChanged(event: any) {
     this.searchType = event.detail.value;
     this.movies = [];
-    // Pokud je v hledáčku text, hledáme znovu v nové kategorii, jinak načteme populární
     if (this.searchQuery.trim().length > 2) {
       this.onSearch({ detail: { value: this.searchQuery } });
     } else {
