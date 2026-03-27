@@ -13,7 +13,7 @@ import {
   IonButton,
   IonSegment,       // Přidáno
   IonSegmentButton, // Přidáno
-  IonLabel, IonGrid, IonRow, IonCol          // Přidáno
+  IonLabel, IonGrid, IonRow, IonCol, IonIcon          // Přidáno
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -27,17 +27,18 @@ import {
     IonToolbar,
     IonTitle,
     IonContent,
-   /* IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
-    IonButton,*/
+    /* IonCard,
+     IonCardHeader,
+     IonCardTitle,
+     IonCardContent,
+     IonButton,*/
     IonSegment,       // Přidáno
     IonSegmentButton, // Přidáno
     IonLabel,
     IonGrid,
     IonRow,
     IonCol,
+    IonIcon,
     // Přidáno
   ],
 })

@@ -12,7 +12,7 @@ import {
   IonList,*/
   IonSegment,
   IonSegmentButton,
-  IonLabel, IonGrid, IonRow, IonCol
+  IonLabel, IonGrid, IonRow, IonCol, IonIcon
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -36,7 +36,8 @@ import {
     IonLabel,
     IonGrid,
     IonRow,
-    IonCol
+    IonCol,
+    IonIcon
   ],
 })
 export class Tab2Page {

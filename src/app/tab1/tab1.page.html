@@ -1,24 +1,26 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-segment [value]="searchType" (ionChange)="segmentChanged($event)">
-      <ion-segment-button value="movie">
-        <ion-label>Filmy</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="tv">
-        <ion-label>Seriály</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
+  @if (!showTrailer) {
+    <ion-toolbar>
+      <ion-segment [value]="searchType" (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="movie">
+          <ion-label>Filmy</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="tv">
+          <ion-label>Seriály</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
 
-  <ion-toolbar>
-    <ion-searchbar
-      placeholder="Hledat název..."
-      (ionInput)="onSearch($event)"
-      [debounce]="500"
-      [showClearButton]="'always'"
-      [animated]="true">
-    </ion-searchbar>
-  </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar
+        placeholder="Hledat název..."
+        (ionInput)="onSearch($event)"
+        [debounce]="500"
+        [showClearButton]="'always'"
+        [animated]="true">
+      </ion-searchbar>
+    </ion-toolbar>
+  }
 </ion-header>
 
 <ion-content [fullscreen]="true">
